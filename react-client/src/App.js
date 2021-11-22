@@ -1,6 +1,5 @@
 import logo from "./logo.svg";
 import "./App.css";
-let name = "Pradnyesh Aglawe";
 
 function App() {
   return (

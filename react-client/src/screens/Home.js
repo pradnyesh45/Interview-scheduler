@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Nav, Container, Navbar, Accordion } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 
 function Home() {
   return (

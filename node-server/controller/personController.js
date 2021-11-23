@@ -25,3 +25,19 @@ module.exports.createPerson = async (req, res) => {
     console.log(error);
   }
 };
+
+module.exports.deletePerson = async (req, res) => {
+  try {
+    Person.findByIdAndDelete(req.body.id, (err, Person) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          message: `${Person} successfully deleted`,
+        });
+      }
+    });
+  } catch (error) {
+    console.log("error");
+  }
+};

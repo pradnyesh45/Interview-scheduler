@@ -1,6 +1,4 @@
-const Interview = require("../models/interview");
 const InterviewModel = require("../models/interview");
-const Person = require("../models/person");
 
 // Create Candidate or Interviewer
 module.exports.createInterview = async (req, res) => {
@@ -55,7 +53,7 @@ module.exports.createInterview = async (req, res) => {
 
 module.exports.deleteInterview = async (req, res) => {
   try {
-    Interview.findOneAndRemove(req.body.id, (err) => {
+    InterviewModel.findOneAndRemove(req.body.id, (err) => {
       if (err) {
         console.log(err);
       }
@@ -70,22 +68,28 @@ module.exports.deleteInterview = async (req, res) => {
 
 module.exports.updateInterview = async (req, res) => {
   try {
-    Person.findOneAndUpdate(req.body, (err, res) => {
-      if (err) {
-        console.log(err);
-      }
+    let interview = await InterviewModel.findOneAndReplace(
+      { id: req.body.id },
+      req.body
+    );
+    let newInterview = await InterviewModel.findOne({ id: req.body.id });
+    if (interview != newInterview) {
       res.status(200).json({
-        message: "Update is successful",
+        message: "Updated Successfully",
       });
-    });
+    } else {
+      res.status(200).json({
+        messgae: "Update not successfull",
+      });
+    }
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports.getAllInterivews = async (req, res) => {
+module.exports.getAllInterviews = async (req, res) => {
   try {
-    Interview.find({}, (err, interviews) => {
+    InterviewModel.find({}, (err, interviews) => {
       var interviewMap = {};
       interviews.forEach((interview) => {
         interviewMap[interview._id] = interview;

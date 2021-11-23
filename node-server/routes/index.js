@@ -14,9 +14,9 @@ router.post("/createPerson", personController.createPerson);
 router.delete("/deletePerson", personController.deletePerson);
 
 // Interviwe Controller
-router.post("/createInterveiw", interviewController.createInterview);
+router.post("/createInterview", interviewController.createInterview);
 router.delete("/deleteInterview", interviewController.deleteInterview);
 router.put("/updateInterview", interviewController.updateInterview);
-router.get("/allInterviews", interviewController.getAllInterivews);
+router.get("/allInterviews", interviewController.getAllInterviews);
 
 module.exports = router;

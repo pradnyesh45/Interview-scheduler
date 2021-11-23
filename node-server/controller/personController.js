@@ -12,9 +12,7 @@ module.exports.createPerson = async (req, res) => {
       (req.body.role == "Candidate" || req.body.role == "Interviewer")
     ) {
       const Person = new PersonModel(req.body);
-      Person.save((error) => {
-        console.log(error);
-      });
+      Person.save();
       if (Person) {
         return res.status(200).json({
           message: "Successfully created a Person",
@@ -28,7 +26,7 @@ module.exports.createPerson = async (req, res) => {
 
 module.exports.deletePerson = async (req, res) => {
   try {
-    Person.findByIdAndDelete(req.body.id, (err, Person) => {
+    PersonModel.findByIdAndDelete(req.body.id, (err, Person) => {
       if (err) {
         console.log(err);
       } else {
@@ -38,6 +36,6 @@ module.exports.deletePerson = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
 };

@@ -1,5 +1,11 @@
 ## First clone the repository and use commands after entering appropriate folders.
 
+# Tech Stack
+
+- Database: MongoDB
+- Backend: NodeJS
+- Frontend: ReactJS
+
 # For Server
 
 1. Go to node-server

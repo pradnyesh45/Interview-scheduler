@@ -79,13 +79,13 @@ function UpdateInterview() {
         Interviewer: interviewer,
         startTime: new Date(startTime).toISOString(),
         endTime: new Date(endTime).toISOString(),
-        // id: id,
-        if(response) {
-          toast.success("Updation was successfull");
-        },
+        id: id,
       });
+      if (response) {
+        toast.success("Update was successfull");
+      }
     } catch (error) {
-      toast.error("Updation was unsuccessful");
+      toast.error("Updation was unsuccessfull");
     }
 
     // console.log("response", response);

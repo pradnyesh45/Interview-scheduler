@@ -92,21 +92,73 @@ module.exports.deleteInterview = async (req, res) => {
 
 module.exports.updateInterview = async (req, res) => {
   try {
-    let interview = await InterviewModel.findOneAndReplace(
-      { id: req.body.id },
-      req.body,
-      { returnDocument: "after" }
-    );
-    // let newInterview = await InterviewModel.findOne({ id: req.body.id });
-    if (interview) {
-      res.status(200).json({
-        message: "Updated Successfully",
+    // console.log("req.body", req.body);
+    if (
+      req.body.Candidate._id &&
+      req.body.Interviewer._id &&
+      req.body.startTime &&
+      req.body.endTime
+    ) {
+      const startTime = req.body.startTime;
+      const endTime = req.body.endTime;
+      const CandidateId = req.body.Candidate._id;
+      const InterviewerId = req.body.Interviewer._id;
+      const filledSlot = await InterviewModel.findOne({
+        $and: [
+          {
+            $or: [{ Candidate: CandidateId }, { Interviewer: InterviewerId }],
+          },
+          {
+            $and: [
+              { startTime: { $lt: endTime } },
+              { endTime: { $gt: startTime } },
+            ],
+          },
+        ],
       });
-    } else {
-      res.status(200).json({
-        messgae: "Update not successfull",
-      });
+      if (!filledSlot) {
+        let interview = await InterviewModel.findOneAndUpdate(
+          {
+            id: req.body._id,
+            Candidate: req.body.Candidate._id,
+            Interviewer: req.body.Interviewer._id,
+          },
+          {
+            Candidate: req.body.Candidate._id,
+            Interviewer: req.body.Interviewer._id,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
+          },
+          { new: true }
+        );
+        // let newInterview = await InterviewModel.findOne({ id: req.body.id });
+        if (interview) {
+          res.status(200).json({
+            message: "Updated Successfully",
+          });
+        } else {
+          res.status(200).json({
+            messgae: "Update not successfull",
+          });
+        }
+      }
     }
+
+    // let interview = await InterviewModel.findOneAndReplace(
+    //   { id: req.body.id },
+    //   req.body,
+    //   { returnDocument: "after" }
+    // );
+    // // let newInterview = await InterviewModel.findOne({ id: req.body.id });
+    // if (interview) {
+    //   res.status(200).json({
+    //     message: "Updated Successfully",
+    //   });
+    // } else {
+    //   res.status(200).json({
+    //     messgae: "Update not successfull",
+    //   });
+    // }
   } catch (error) {
     console.log(error);
   }

@@ -39,3 +39,19 @@ module.exports.deletePerson = async (req, res) => {
     console.log(error);
   }
 };
+
+module.exports.getAllPersons = async (req, res) => {
+  try {
+    PersonModel.find({}, (err, persons) => {
+      var personArray = [];
+      persons.forEach((person) => {
+        personArray.push(person);
+      });
+      res.status(200).json({
+        personArray,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

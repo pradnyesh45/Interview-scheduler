@@ -90,12 +90,12 @@ module.exports.updateInterview = async (req, res) => {
 module.exports.getAllInterviews = async (req, res) => {
   try {
     InterviewModel.find({}, (err, interviews) => {
-      var interviewMap = {};
+      var interviewArray = [];
       interviews.forEach((interview) => {
-        interviewMap[interview._id] = interview;
+        interviewArray.push(interview);
       });
       res.status(200).json({
-        interviewMap,
+        interviewArray,
       });
     });
   } catch (error) {

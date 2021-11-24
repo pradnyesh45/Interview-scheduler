@@ -1,47 +1,102 @@
-import React from "react";
-import {
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-  DropdownButton,
-  Dropdown,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import dotenv from "dotenv";
+import { Form, Button, Container } from "react-bootstrap";
+const SERVER_URL = "http://localhost:5000";
+// require("dotenv").config();
+// import { Form } from "react-bootstrap";
+// import { Form, Button } from "react-bootstrap";
+dotenv.config();
+const initialState = {
+  name: "",
+  email: "",
+  role: "",
+};
 
 function AddPerson() {
+  const [newPerson, setNewPerson] = useState(initialState);
+
+  useEffect(() => {}, [newPerson]);
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    // console.log("e.target", e.target.id);
+
+    setNewPerson({ ...newPerson, [name]: value });
+  };
+
+  const handleOnRole = (e) => {
+    const { name, id } = e.target;
+    setNewPerson({ ...newPerson, [name]: id });
+  };
+  console.log("newPerson", newPerson);
+  // console.log("env", REACT_APP_SERVER_URL);
+  const createPerson = async (e) => {
+    e.preventDefault();
+    console.log("Inside create person");
+    const response = await axios.post(`${SERVER_URL}/createPerson`, {
+      name: newPerson.name,
+      email: newPerson.email,
+      role: newPerson.role,
+    });
+    console.log(response);
+    // newPerson = initialState;
+  };
+
   return (
     <div>
       <Container>
-        <Row>
-          <Col>
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon2">Name</InputGroup.Text>
-              <FormControl
-                placeholder="Recipient's username"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
+        <Form onSubmit={createPerson}>
+          <Form.Group className="mb-3" controlId="formBasicName">
+            <Form.Label>Name of Person</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Name"
+              name="name"
+              value={newPerson.name}
+              onChange={handleOnChange}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={newPerson.email}
+              onChange={handleOnChange}
+            />
+          </Form.Group>
+
+          {["radio"].map((type) => (
+            <div
+              key={`inline-${type}`}
+              className="mb-3"
+              name="role"
+              value={newPerson.role}
+              onChange={handleOnRole}
+            >
+              <Form.Check
+                inline
+                label="Candidate"
+                name="role"
+                type={type}
+                id="Candidate"
               />
-            </InputGroup>
-          </Col>
-          <Col>
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon2">Email</InputGroup.Text>
-              <FormControl
-                placeholder="Recipient's username"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
+              <Form.Check
+                inline
+                label="Interviewer"
+                name="role"
+                type={type}
+                id="Interviewer"
               />
-            </InputGroup>
-          </Col>
-          <Col>
-            <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-        </Row>
+            </div>
+          ))}
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
       </Container>
     </div>
   );

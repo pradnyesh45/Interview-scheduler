@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const port = 5000;
 require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/", require("./routes/index"));
 // app.get("/", (req, res) => {

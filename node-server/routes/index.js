@@ -12,6 +12,7 @@ router.get("/", controller.home);
 // Person Controller
 router.post("/createPerson", personController.createPerson);
 router.delete("/deletePerson", personController.deletePerson);
+router.get("/allPersons", personController.getAllPersons);
 
 // Interviwe Controller
 router.post("/createInterview", interviewController.createInterview);

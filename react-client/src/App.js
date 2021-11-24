@@ -7,9 +7,9 @@ import InterviewList from "./screens/InterviewList";
 import ScheduleInterview from "./screens/ScheduleInterview";
 import AddPerson from "./screens/AddPerson";
 import NavbarComponent from "./components/NavbarComponent";
+import UpdateInterview from "./screens/UpdateInterview";
 
 function App() {
-  console.log("return se pehle", Home);
   return (
     <div className="App">
       <BrowserRouter>
@@ -18,6 +18,7 @@ function App() {
           <Route path="/addPerson" element={<AddPerson />} />
           <Route path="/interviewList" element={<InterviewList />} />
           <Route path="/scheduleInterview" element={<ScheduleInterview />} />
+          <Route path="/updateInterview" element={<UpdateInterview />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </BrowserRouter>

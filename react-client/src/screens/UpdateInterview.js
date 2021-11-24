@@ -13,7 +13,7 @@ const initialState = {
   endTime: "",
 };
 
-function ScheduleInterview() {
+function UpdateInterview() {
   const [newInterview, setNewInterview] = useState(initialState);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -145,4 +145,4 @@ function ScheduleInterview() {
   );
 }
 
-export default ScheduleInterview;
+export default UpdateInterview;

@@ -73,8 +73,8 @@ function ScheduleInterview() {
     const response = await axios.post(`${SERVER_URL}/createInterview`, {
       Candidate: newInterview.Candidate,
       Interviewer: newInterview.Interviewer,
-      startTime: newInterview.startTime,
-      endTime: newInterview.endTime,
+      startTime: new Date(newInterview.startTime).toISOString(),
+      endTime: new Date(newInterview.endTime).toISOString(),
     });
     console.log("response", response);
     // newInterview = initialState;

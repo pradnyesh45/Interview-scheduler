@@ -18,7 +18,7 @@ function App() {
           <Route path="/addPerson" element={<AddPerson />} />
           <Route path="/interviewList" element={<InterviewList />} />
           <Route path="/scheduleInterview" element={<ScheduleInterview />} />
-          <Route path="/updateInterview" element={<UpdateInterview />} />
+          <Route path="/updateInterview/:id" element={<UpdateInterview />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </BrowserRouter>

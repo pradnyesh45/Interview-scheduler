@@ -53,7 +53,7 @@ module.exports.createInterview = async (req, res) => {
 
 module.exports.deleteInterview = async (req, res) => {
   try {
-    InterviewModel.findOneAndRemove(req.body.id, (err) => {
+    InterviewModel.findByIdAndDelete(req.params.id, (err) => {
       if (err) {
         console.log(err);
       }
@@ -70,10 +70,11 @@ module.exports.updateInterview = async (req, res) => {
   try {
     let interview = await InterviewModel.findOneAndReplace(
       { id: req.body.id },
-      req.body
+      req.body,
+      { returnDocument: "after" }
     );
-    let newInterview = await InterviewModel.findOne({ id: req.body.id });
-    if (interview != newInterview) {
+    // let newInterview = await InterviewModel.findOne({ id: req.body.id });
+    if (interview) {
       res.status(200).json({
         message: "Updated Successfully",
       });
@@ -98,6 +99,24 @@ module.exports.getAllInterviews = async (req, res) => {
         interviewArray,
       });
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports.getInterviewById = async (req, res) => {
+  console.log("req.params.id", req.params.id);
+  try {
+    const response = await InterviewModel.findById(req.params.id).populate({
+      path: "Candidate Interviewer",
+      select: "name",
+    });
+    console.log("response", response);
+    if (response) {
+      res.status(200).json({
+        response,
+      });
+    }
   } catch (error) {
     console.log(error);
   }

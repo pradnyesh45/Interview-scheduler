@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
 import axios from "axios";
+import { toast } from "react-toastify";
 const SERVER_URL = "http://localhost:5000";
 
 function InterviewList() {
   let [Interviews, setInteriviews] = useState([]);
+  let [reload, setReload] = useState(false);
   useEffect(() => {
     console.log("inside use effect");
     axios
@@ -16,6 +18,7 @@ function InterviewList() {
         let interviewArray = response.data.interviewArray;
         console.log("interviewArray", interviewArray);
         setInteriviews(() => interviewArray);
+        toast.success("Interview Timings Loaded");
         // interviewArray.map((item) => {
         //   console.log("item", item);
         //   Interviews.push(item);
@@ -24,15 +27,30 @@ function InterviewList() {
       .catch((error) => {
         console.log(error);
       });
-  }, [Interviews._id]);
+  }, [Interviews._id, reload]);
 
   console.log("Interviews", Interviews);
 
   const handleEditClick = async () => {
-    const response = await axios.post(`${SERVER_URL}`, {});
+    const response = await axios.post(`${SERVER_URL}`);
   };
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = async (id) => {
+    // toast.success("Deleted Sucessfully");
+    // console.log("id", id);
+    try {
+      const response = await axios.delete(
+        `${SERVER_URL}/deleteInterview/${id}`
+      );
+      console.log(response);
+      toast.success("Deleted Successfully");
+      if (response.status === 200) {
+        setReload((state) => !state);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -58,12 +76,34 @@ function InterviewList() {
                 <td>{item.startTime}</td>
                 <td>{item.endTime}</td>
                 <td>
-                  <Button variant="primary" as={Link} to="/updateInterview">
+                  {/* <Link to={pathname: "/updateInterview", state: {}} /> */}
+                  {/* <Link
+                    to={{
+                      pathname: "/updateInterview",
+                      state: {
+                        Candidate: item.Candidate,
+                        Interview: item.Interview,
+                        startTime: item.startTime,
+                        endTime: item.endTime,
+                        id: item._id,
+                      },
+                    }}
+                  >
+                    <Button variant="primary">Update</Button>
+                  </Link> */}
+                  <Button
+                    variant="primary"
+                    as={Link}
+                    to={`/updateInterview/${item._id}`}
+                  >
                     Update
                   </Button>
                 </td>
                 <td>
-                  <Button variant="danger" onClick={handleDeleteClick}>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteClick(item._id)}
+                  >
                     Delete
                   </Button>
                 </td>

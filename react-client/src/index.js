@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import "./bootstrap.min (1).css";
 import App from "./App";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <ToastContainer />
   </React.StrictMode>,
   document.getElementById("root")
 );

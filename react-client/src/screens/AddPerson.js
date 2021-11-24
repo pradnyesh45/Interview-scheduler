@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import dotenv from "dotenv";
 import { Form, Button, Container } from "react-bootstrap";
+import { toast } from "react-toastify";
 const SERVER_URL = "http://localhost:5000";
+toast.info("Add a Candidate or an Interviewer");
 // require("dotenv").config();
 // import { Form } from "react-bootstrap";
 // import { Form, Button } from "react-bootstrap";
@@ -33,14 +35,23 @@ function AddPerson() {
   // console.log("env", REACT_APP_SERVER_URL);
   const createPerson = async (e) => {
     e.preventDefault();
-    console.log("Inside create person");
-    const response = await axios.post(`${SERVER_URL}/createPerson`, {
-      name: newPerson.name,
-      email: newPerson.email,
-      role: newPerson.role,
-    });
-    console.log(response);
-    // newPerson = initialState;
+    // console.log("Inside create person");
+    try {
+      const response = await axios.post(`${SERVER_URL}/createPerson`, {
+        name: newPerson.name,
+        email: newPerson.email,
+        role: newPerson.role,
+      });
+      if (response) {
+        toast.success("A Person is added");
+      } else {
+        toast.error("Error in creating Person");
+      }
+      // console.log(response);
+      // newPerson = initialState;
+    } catch (error) {
+      toast.error("Please fill the information completely and correctly");
+    }
   };
 
   return (

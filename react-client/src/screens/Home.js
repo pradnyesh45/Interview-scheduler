@@ -1,6 +1,7 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
-
+import { toast } from "react-toastify";
+toast.info("Welcome to Interview-Scheduler");
 function Home() {
   return (
     <div>

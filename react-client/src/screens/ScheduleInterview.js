@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Container, Button, Form } from "react-bootstrap";
-
+import { toast } from "react-toastify";
 import "../bootstrap.min (1).css";
+
+toast.info("Schedule an Interview");
+
 // import "../../node_modules/bootstrap/dist/css/bootstrap.css";
 const SERVER_URL = "http://localhost:5000";
 
@@ -70,13 +73,23 @@ function ScheduleInterview() {
   // });
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post(`${SERVER_URL}/createInterview`, {
-      Candidate: newInterview.Candidate,
-      Interviewer: newInterview.Interviewer,
-      startTime: new Date(newInterview.startTime).toISOString(),
-      endTime: new Date(newInterview.endTime).toISOString(),
-    });
-    console.log("response", response);
+    try {
+      const response = await axios.post(`${SERVER_URL}/createInterview`, {
+        Candidate: newInterview.Candidate,
+        Interviewer: newInterview.Interviewer,
+        startTime: new Date(newInterview.startTime).toISOString(),
+        endTime: new Date(newInterview.endTime).toISOString(),
+      });
+      // console.log("response", response);
+      if (response) {
+        toast.success("Interview successfully Scheduled");
+      } else {
+        toast.error("Some error in scheduling");
+      }
+    } catch (error) {
+      toast.error("Please fill the information completely and correctly");
+    }
+
     // newInterview = initialState;
   };
 

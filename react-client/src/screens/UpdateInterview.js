@@ -4,8 +4,11 @@ import { Container, Button, Form } from "react-bootstrap";
 import { useLocation, useParams } from "react-router-dom";
 import moment from "moment";
 import "../bootstrap.min (1).css";
+import { toast } from "react-toastify";
 // import "../../node_modules/bootstrap/dist/css/bootstrap.css";
 const SERVER_URL = "http://localhost:5000";
+
+toast.info("Update the scheduled interview");
 
 const initialState = {
   Candidate: "",
@@ -70,14 +73,22 @@ function UpdateInterview() {
   // });
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.put(`${SERVER_URL}/updateInterview`, {
-      Candidate: candidate,
-      Interviewer: interviewer,
-      startTime: new Date(startTime).toISOString(),
-      endTime: new Date(endTime).toISOString(),
-      // id: id,
-    });
-    console.log("response", response);
+    try {
+      const response = await axios.put(`${SERVER_URL}/updateInterview`, {
+        Candidate: candidate,
+        Interviewer: interviewer,
+        startTime: new Date(startTime).toISOString(),
+        endTime: new Date(endTime).toISOString(),
+        // id: id,
+        if(response) {
+          toast.success("Updation was successfull");
+        },
+      });
+    } catch (error) {
+      toast.error("Updation was unsuccessful");
+    }
+
+    // console.log("response", response);
     // newInterview = initialState;
   };
 

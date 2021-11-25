@@ -8,7 +8,8 @@ module.exports.createInterview = async (req, res) => {
       req.body.Candidate &&
       req.body.Interviewer &&
       req.body.startTime &&
-      req.body.endTime
+      req.body.endTime &&
+      req.body.startTime < req.body.endTime
     ) {
       const startTime = req.body.startTime;
       const endTime = req.body.endTime;
@@ -97,7 +98,8 @@ module.exports.updateInterview = async (req, res) => {
       req.body.Candidate._id &&
       req.body.Interviewer._id &&
       req.body.startTime &&
-      req.body.endTime
+      req.body.endTime &&
+      req.body.startTime < req.body.endTime
     ) {
       const startTime = req.body.startTime;
       const endTime = req.body.endTime;
